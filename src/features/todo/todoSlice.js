@@ -44,7 +44,6 @@ export const deleteAsyncTodo = createAsyncThunk(
   }
 );
 
-
 export const toggleAsyncTodo = createAsyncThunk(
   "todos/toggleAsyncTodo",
   async (payload, { rejectWithValue }) => {
@@ -114,6 +113,12 @@ const todoSlice = createSlice({
       state.todos = state.todos.filter((todo) => {
         todo.id !== Number(action.payload.id)
       });
+    },
+    [toggleAsyncTodo.fulfilled]: (state, action) => {
+      const selectedTodo = state.todos.find(
+          (todo) => todo.id === Number(action.payload.id)
+        );
+        selectedTodo.completed = action.payload.completed;
     },
   }
 });
