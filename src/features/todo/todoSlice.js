@@ -16,7 +16,6 @@ export const getAsyncTodos = createAsyncThunk(
   }
 });
 
-
 export const addAsyncTodo = createAsyncThunk(
   "todos/addAsyncTodo",
   async (payload, { rejectWithValue }) => {
@@ -102,7 +101,14 @@ const todoSlice = createSlice({
       state.loading = false;
       state.todos = [];
       state.error = action.payload;
-    }
+    },
+    [addAsyncTodo.pending] : (state, action) => {
+      state.loading = true;
+    },
+    [addAsyncTodo.fulfilled] : (state, action) => {
+      state.loading = false;
+      state.todos.push(action.payload)
+    },
   }
 });
 
