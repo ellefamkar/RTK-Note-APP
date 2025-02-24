@@ -12,7 +12,7 @@ const TodoItem = ({ id, title, completed }) => {
       <div className="d-flex justify-content-between">
         <span className="d-flex align-items-center gap-1">
           <input
-            onChange={(e) =>
+            onChange={() =>
               dispatch(toggleAsyncTodo({ id, completed: !completed }))
             }
             type="checkbox"

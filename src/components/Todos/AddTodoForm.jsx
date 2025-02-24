@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAsyncTodo } from "../../features/todo/todoSlice";
 
 const AddTodoForm = () => {
-
   const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
@@ -38,11 +37,11 @@ const AddTodoForm = () => {
         onChange={(event) => setValue(event.target.value)}
       />
       <button disabled={loading} type="submit" className="btn btn-primary mt-1">
-        {loading ? "Submitting..." : "Submit"}
+        {/* {loading ? "Submitting..." : "Submit"} */}
+        Submit
       </button>
     </form>
   );
-
 };
 
 export default AddTodoForm;

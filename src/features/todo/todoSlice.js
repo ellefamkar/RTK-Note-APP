@@ -2,19 +2,20 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL : "http://localhost:5000",
-})
+  baseURL: "http://localhost:5000",
+});
 
 export const getAsyncTodos = createAsyncThunk(
-  "todos/getAsyncTodos", 
+  "todos/getAsyncTodos",
   async (_, { rejectWithValue }) => {
-  try {
-    const response = await api.get("/todos");
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.message);
+    try {
+      const response = await api.get("/todos");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
 export const addAsyncTodo = createAsyncThunk(
   "todos/addAsyncTodo",
@@ -87,41 +88,42 @@ const todoSlice = createSlice({
     },
   },
   extraReducers: {
-    [getAsyncTodos.pending] : (state, action) => {
+    [getAsyncTodos.pending]: (state, action) => {
       state.loading = true;
       state.todos = [];
       state.error = "";
     },
-    [getAsyncTodos.fulfilled] : (state, action) => {
+    [getAsyncTodos.fulfilled]: (state, action) => {
       state.loading = false;
       state.todos = action.payload;
       state.error = "";
     },
-    [getAsyncTodos.rejected] : (state, action) => {
+    [getAsyncTodos.rejected]: (state, action) => {
       state.loading = false;
-      state.todos = [];
       state.error = action.payload;
+      state.todos = [];
     },
-    [addAsyncTodo.pending] : (state, action) => {
+    [addAsyncTodo.pending]: (state, action) => {
       state.loading = true;
     },
-    [addAsyncTodo.fulfilled] : (state, action) => {
+    [addAsyncTodo.fulfilled]: (state, action) => {
       state.loading = false;
       state.todos.push(action.payload);
     },
-    [deleteAsyncTodo.fulfilled] : (state, action) => {
-      state.todos = state.todos.filter((todo) => {
-        todo.id !== Number(action.payload.id)
-      });
+    [deleteAsyncTodo.fulfilled]: (state, action) => {
+      state.todos = state.todos.filter(
+        (todo) => todo.id !== Number(action.payload.id)
+      );
     },
     [toggleAsyncTodo.fulfilled]: (state, action) => {
       const selectedTodo = state.todos.find(
-          (todo) => todo.id === Number(action.payload.id)
-        );
-        selectedTodo.completed = action.payload.completed;
+        (todo) => todo.id === Number(action.payload.id)
+      );
+      selectedTodo.completed = action.payload.completed;
     },
-  }
+  },
 });
 
 export const { addTodo, deleteTodo, toggleTodo } = todoSlice.actions;
+
 export default todoSlice.reducer;
